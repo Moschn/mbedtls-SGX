@@ -126,7 +126,7 @@ libmbedtls_sgx_u.a:	$(UNTRUSTED_OBJECTS)
 	@echo "LD => $@"
 
 %.u.o: %.c
-	@$(CC) -Imbedtls-2.2.1/include  -c -o $@ $<
+	@$(CC) -Imbedtls-2.2.1/include -I$(SGX_SDK)/include -c -o $@ $<
 	@echo "CC <= $<"
 
 .PHONY: clean
