@@ -4,9 +4,8 @@
 void threading_mutex_init_sgx(mbedtls_threading_mutex_t *mutex)
 {
     if (mutex == NULL) return;
-    sgx_thread_mutexattr_t unused;
     if (mutex->mutex == NULL) mutex->mutex = malloc(sizeof(sgx_thread_mutex_t));
-    mutex->is_valid = sgx_thread_mutex_init(mutex->mutex, &unused);
+    mutex->is_valid = sgx_thread_mutex_init(mutex->mutex, NULL);
 }
 
 void threading_mutex_free_sgx(mbedtls_threading_mutex_t *mutex)
@@ -19,13 +18,17 @@ void threading_mutex_free_sgx(mbedtls_threading_mutex_t *mutex)
 int threading_mutex_lock_sgx(mbedtls_threading_mutex_t *mutex)
 {
     if (mutex == NULL || mutex->is_valid != 0) return -1;
-    return sgx_thread_mutex_lock(mutex->mutex);
+    if(sgx_thread_mutex_lock(mutex->mutex) != 0)
+        return MBEDTLS_ERR_THREADING_MUTEX_ERROR;
+    return 0;
 }
 
 int threading_mutex_unlock_sgx(mbedtls_threading_mutex_t *mutex)
 {
     if (mutex == NULL || mutex->is_valid != 0) return -1;
-    return sgx_thread_mutex_unlock(mutex->mutex);
+    if(sgx_thread_mutex_unlock(mutex->mutex) != 0)
+        return MBEDTLS_ERR_THREADING_MUTEX_ERROR;
+    return 0;
 }
 
 void mbedtls_threading_set_sgx()
