@@ -3,6 +3,8 @@
 
 #include "sgx_thread.h"
 
+#define MBEDTLS_ERR_THREADING_MUTEX_ERROR                 -0x001E  /**< Locking / unlocking / free failed with error code. */
+
 typedef struct
 {
     sgx_thread_mutex_t *mutex;
