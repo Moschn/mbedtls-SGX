@@ -12,7 +12,6 @@ void threading_mutex_free_sgx(mbedtls_threading_mutex_t *mutex)
 {
     if (mutex == NULL) return;
     sgx_thread_mutex_destroy(mutex->mutex);
-    free(mutex->mutex);
 }
 
 int threading_mutex_lock_sgx(mbedtls_threading_mutex_t *mutex)
