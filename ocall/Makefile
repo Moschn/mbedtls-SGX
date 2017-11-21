@@ -1,7 +1,7 @@
 UNTRUSTED_SRC_FILES := ../ocall/net_ocalls.c ../ocall/std_ocalls.c
 UNTRUSTED_OBJECTS := $(UNTRUSTED_SRC_FILES:.c=.u.o)
 
-libmbedtls_sgx_u.a:	$(UNTRUSTED_OBJECTS)
+libmbedtls_SGX_u.a:	$(UNTRUSTED_OBJECTS)
 	@ar rcs $@ $^
 	@echo "LD => $@"
 
