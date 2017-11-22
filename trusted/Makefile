@@ -59,7 +59,7 @@ else
 endif
 Crypto_Library_Name := sgx_tcrypto
 
-Enclave_C_Files = $(PROJECT_NAME)_t.c $(wildcard $(MBEDTLS_C_DIR)/*.c) glue.c
+Enclave_C_Files = $(PROJECT_NAME)_t.c $(wildcard $(MBEDTLS_C_DIR)/*.c) glue.c dummy.c net_sockets_proxy.c
 Enclave_Include_Paths = -I$(MBEDTLS_HEADER_DIR) -I$(SGX_SDK)/include -I$(SGX_SDK)/include/tlibc -I$(SGX_SDK)/include/stlport -I.
 
 Enclave_C_Flags = $(SGX_COMMON_CFLAGS) -nostdinc -fvisibility=hidden -fpie -fstack-protector $(Enclave_Include_Paths)
@@ -107,11 +107,13 @@ $(PROJECT_NAME)_t.c: $(SGX_EDGER8R)
 	@echo "GEN =>  $@"
 
 %.o: %.c
+	@echo "$(CC) $(Enclave_C_Flags) -c $< -o $@"
 	@$(CC) $(Enclave_C_Flags) -c $< -o $@
 	@echo "CC <= $<"
 
 $(Enclave_Name): $(PROJECT_NAME)_t.o $(Enclave_C_Objects)
-	@ar rcs $@ $^
+	@echo "ar qcs $@ $^"
+	@ar qcs $@ $^
 	@echo "LD => $@"
 
 clean:
