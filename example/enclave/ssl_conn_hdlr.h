@@ -66,6 +66,10 @@ class TLSConnectionHandler {
   mbedtls_x509_crt cachain;
   mbedtls_pk_context pkey;
 
+  #if defined(MBEDTLS_SSL_CACHE_C)
+  mbedtls_ssl_cache_context cache;
+  #endif
+
   /*
    * configuration
    */
